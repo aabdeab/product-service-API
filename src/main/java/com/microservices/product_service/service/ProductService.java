@@ -2,8 +2,6 @@ package com.microservices.product_service.service;
 
 import com.microservices.product_service.dto.ProductResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.microservices.product_service.dto.ProductRequest;
@@ -34,6 +32,21 @@ public class ProductService {
 
 
 	public List<ProductResponse> getAllProducts() {
+		List<Product> products=productRepository.findAll();
+		 return products.stream().map(this::mapToProductResponse).toList();
+
+
+
+
+	}
+
+	private ProductResponse mapToProductResponse(Product product) {
+		return ProductResponse.builder()
+				.id(product.getId())
+				.description((product.getDescription()))
+				.name(product.getName())
+				.price(product.getPrice())
+				.build();
 
 	}
 }
